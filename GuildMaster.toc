@@ -1,0 +1,7 @@
+## Interface: 30200
+## Title: Guild|cff80ff80Master|r
+## Notes: Convert agnostics to your side en masse with this handy tool.
+## Author: Manifold
+## SavedVariables: GuildMaster
+GuildMaster.xml
+GuildMaster.lua
