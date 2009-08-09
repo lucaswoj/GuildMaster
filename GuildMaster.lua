@@ -1,21 +1,10 @@
 function GuildMaster_OnLoad()
     SlashCmdList["GUILDMASTER"] = GuildMasterCmdLine;
     SLASH_GUILDMASTER1 = "/gmaster";
-    print("Guild|cff80ff80Master|r addon operation.");
+    print("Guild|cff80ff80Master|r addon operational.");
 end
 
 function GuildMaster_OnEvent(self, event, ...)
-    --[[aEventAction = {
-        ["WHO_LIST_UPDATE"] = GuildMaster_DispatchInvites,
-    }
-
-    -- yay for retarded lua hacks
-    p("event: " .. event);
-    local action = aEventAction[event];
-    if (action) then
-        action();
-    end]]
-    
     if event == "WHO_LIST_UPDATE" then
         GuildMaster_DispatchInvites();
     end
