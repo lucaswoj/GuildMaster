@@ -1,0 +1,11 @@
+## Interface: 30200
+## Title: Guild|cff80ff80Master|r
+## Notes: A (soon-to-be) comprehensive guild management and information tool for guild leaders and officers.
+## Author: Manifold
+## SavedVariables: GuildMasterDB
+## OptionalDeps: Ace3
+## X-Embeds: Ace3
+## X-Category: Interface Enhancements
+
+embeds.xml
+GuildMaster.lua

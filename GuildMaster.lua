@@ -33,7 +33,7 @@ local options = {
 }
 
 local defaults = {
-    realm = {
+    profile = {
         blacklist = {},
     },
 }
@@ -52,6 +52,13 @@ function GuildMaster:OnEnable()
 end
 
 function GuildMaster:OnDisable()
+end
+
+function GuildMaster:CapitalizeString(str)
+    return string.gsub(string.lower(str), "(%a)([%a]*)",
+        function (first, rest)
+            return string.upper(first) .. rest
+        end);
 end
 
 -- Mass invite functions
@@ -74,7 +81,7 @@ function GuildMaster:DispatchInvites()
     
     for i=1,n do
         charname, guildname = GetWhoInfo(i);
-        if (guildname == "") then
+        if (guildname == "" and self:BlacklistIndex(charname) == nil) then
             GuildInvite(charname);
         end
     end
@@ -82,7 +89,7 @@ end
 
 -- Mass invite blacklist functions
 function GuildMaster:BlacklistIndex(name)
-    for i, entry in ipairs(self.db.blacklist) do
+    for i, entry in ipairs(self.db.profile.blacklist) do
         if (entry == name) then
             return i;
         end
@@ -92,26 +99,32 @@ function GuildMaster:BlacklistIndex(name)
 end
 
 function GuildMaster:PrintBlacklist()
-    for i, entry in ipairs(self.db.blacklist) do
+    for i, entry in ipairs(self.db.profile.blacklist) do
         self:Print(entry);
     end
 end
 
 function GuildMaster:BlacklistAdd(info, params)
+    params = self:CapitalizeString(params);
     if (self:BlacklistIndex(params) ~= nil) then
         self:Print(params .. " is already on the blacklist.");
         return;
     end
     
-    table.insert(self.db.blacklist, params);
+    table.insert(self.db.profile.blacklist, params);
+    self:Print(params .. " added to blacklist.");
 end
 
 function GuildMaster:BlacklistRemove(info, params)
+    params = self:CapitalizeString(params);
     local index = self:BlacklistIndex(params);
     if (index == nil) then
         self:Print(params .. " is not on the blacklist.");
         return;
     end
 
-    table.remove(self.db.blacklist, index);
+    local name = self.db.profile.blacklist[index];
+    table.remove(self.db.profile.blacklist, index);
+    
+    self:Print(params .. " removed from blacklist.");
 end
